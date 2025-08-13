@@ -39,11 +39,14 @@ function renderTasks() {
   }
   const html = tasks
     .map((task, index) => {
-      return `<li class="task-item">
+      return `<li class="task-item ${task.isCompleted ? "completed" : ""}">
           <span class="task-title">${task.name}</span>
           <div class="task-action">
             <button class="task-btn edit">Sửa</button>
-            <button class="task-btn done">Chưa hoàn thành</button>
+            <button class="task-btn ${task.isCompleted ? "done" : ""}"
+            onclick="markDoneTask(${index})">
+            ${task.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+            </button>
             <button class="task-btn delete" onclick="deleteTask(${index})">Xóa</button>
           </div>
         </li>`;
@@ -51,9 +54,16 @@ function renderTasks() {
     .join("");
   tasksList.innerHTML = html;
 }
-renderTasks();
+
 function deleteTask(index) {
   tasks.splice(index, 1);
   localStorage.setItem("tasks", JSON.stringify(tasks));
   renderTasks();
 }
+
+function markDoneTask(index) {
+  tasks[index].isCompleted = !tasks[index].isCompleted;
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  renderTasks();
+}
+renderTasks();
