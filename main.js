@@ -3,7 +3,7 @@ const taskName = document.querySelector("#todo-input");
 const tasksList = document.querySelector(".task-list");
 
 const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
-console.log(tasks);
+// console.log(tasks);
 
 todoForm.onsubmit = (e) => {
   e.preventDefault();
@@ -31,6 +31,12 @@ todoForm.onsubmit = (e) => {
   taskName.value = "";
 };
 
+function escapeHTML(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 function renderTasks() {
   if (!tasks.length) {
     tasksList.innerHTML = `<li class="task-item">
@@ -40,7 +46,7 @@ function renderTasks() {
   const html = tasks
     .map((task, index) => {
       return `<li class="task-item ${task.isCompleted ? "completed" : ""}">
-          <span class="task-title">${task.name}</span>
+          <span class="task-title">${escapeHTML(task.name)}</span>
           <div class="task-action">
             <button class="task-btn edit">Sửa</button>
             <button class="task-btn ${task.isCompleted ? "done" : ""}"
