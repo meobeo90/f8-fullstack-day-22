@@ -3,7 +3,6 @@ const taskName = document.querySelector("#todo-input");
 const tasksList = document.querySelector(".task-list");
 
 const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
-// console.log(tasks);
 
 todoForm.onsubmit = (e) => {
   e.preventDefault();
@@ -62,9 +61,11 @@ function renderTasks() {
 }
 
 function deleteTask(index) {
-  tasks.splice(index, 1);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  renderTasks();
+  if (confirm(`Bạn chắc chắn muốn xóa công việc "${tasks[index].name}"?`)) {
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+  }
 }
 
 function markDoneTask(index) {
